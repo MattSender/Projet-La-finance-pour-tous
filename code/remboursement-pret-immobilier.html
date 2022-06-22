@@ -1,0 +1,263 @@
+<html lang="fr" class="js svg flexbox no-flexboxtweener no-touch-device gt480 gt768 gt992 is1224">
+<head>
+	<title>Calculateur de crédit immobilier - La finance pour tous</title>
+    <link rel="stylesheet" href="style.css" media="all" data-minify="1">
+    <script type="text/javascript" src="remboursement-pret-immobilier.js"></script>
+</head>
+<body class="single-calculator category-pratique category loaded">		
+    <main class="content" role="main">
+	<div class="container container--main">
+		<article class="hentry" itemscope="" itemtype="http://schema.org/Article">
+
+<!-- Page affichée -->                    
+
+<div class="entry-header">
+    <div class="header-logo">
+        <a href="https://www.lafinancepourtous.com/" target="_blank" rel="noopener">
+            <img src="logo-la-finance-pour-tous.svg" alt="La finance pour tous" class="img-responsive">
+        </a>
+    </div><!-- .header-logo -->
+    <h1 class="entry-title entry-title--single" itemprop="headline">
+        Calculateur de <br> remboursement anticipé
+    </h1>
+</div><!-- .entry-header -->
+
+<div class="entry-content" itemprop="articleBody">
+    <div class="wrapper-calculator">
+
+        <p><strong>
+            Ce calculateur vous aidera à voir s'il est intéressant
+            de réaliser le remboursement anticipé de votre crédit immobilier 
+            dans le cadre d'un transfert de prêt. 
+        </strong></p>
+
+        <br><br>
+
+        <h2>Calcul du prêt initial</h2>
+        <ul>
+            <li>Calculez le tableau de remboursement du prêt initial en fonction 
+                des taux, du capital emprunté et de la durée prévue.</li>
+        </ul>
+
+        <!--form action="remboursement-pret-immobilier.html" method="post" id="calculateur-pret" class="formcalc"-->
+        <form id="calculateur-pret" class="formcalc">
+        <div class="table-responsive">
+        <table class="calculateur styled-table" cellspacing="0">
+            <tbody id="calc-pret-off">
+                <tr onclick="toggleTBody('calc-pret')" style="cursor: pointer;">
+                    <td colspan="2" class="header-col">
+                    + Calculer la mensualité
+                    </td>
+                </tr>
+            </tbody>
+            <tbody id="calc-pret-on" style="display: none;">
+                <tr onclick="toggleTBody('calc-pret')" style="cursor: pointer;">
+                    <td colspan="2" class="header-col">
+                    - Calculer la mensualité
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lib header-row">
+                        <label for="capital">Capital emprunté&nbsp;:</label>
+                    </td>
+                    <td>
+                        <input class="chps_num default-value" 
+                            name="capital" type="text" id="capital" 
+                            value="" size="8" maxlength="15" 
+                            autocapitalize="off" autocorrect="off" 
+                            spellcheck="false">
+                        €
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lib header-row">
+                        <label for="duree">Durée de remboursement&nbsp;:</label>
+                    </td>
+                    <td>
+                        <input class="chps_num default-value" 
+                            name="duree" type="text" id="duree" 
+                            value="" size="8" maxlength="4" 
+                            autocapitalize="off" autocorrect="off" 
+                            spellcheck="false">
+                        mois
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lib header-row">
+                        <label for="taux">Taux d'intérêt annuel&nbsp;:</label>
+                    </td>
+                    <td>
+                        <input class="chps_num default-value" 
+                            name="taux" type="text" id="taux" 
+                            value="" size="8" maxlength="4" 
+                            autocapitalize="off" autocorrect="off" 
+                            spellcheck="false">
+                        %
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lib header-row">
+                        <label for="assurance">Taux d'assurance mensuelle&nbsp;:</label>
+                    </td>
+                    <td>
+                        <input class="chps_num default-value" 
+                            name="assurance" type="text" id="assurance" 
+                            value="" size="8" maxlength="10" 
+                            autocapitalize="off" autocorrect="off" 
+                            spellcheck="false">
+                        %
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="bouton row-submit header-row">
+                        <input class="bt-submit btn" type="button" 
+                            onclick="calcul_pret()" name="Calculer" value="Calculer" 
+                            autocapitalize="off" autocorrect="off" spellcheck="false">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        </form>
+
+        <h2>Tableau du prêt initial</h2>
+        <ul>
+            <li>Mensualité : <strong id="monthly_payment">----</strong>/mois</li>
+            <li>Part Assurance : <strong id="monthly_insurance">----</strong>/mois</li>
+            <li>Coût des intérêts à rembourser : <strong id="total_interests">----</strong></li>
+        </ul>
+        <div class="table-responsive">
+        <table class="calculateur styled-table" cellspacing="0">
+            <thead  class="header-col">
+                <tr>
+                    <td>Mois</td>
+                    <td>Intérêts mensuels</td>
+                    <td>Part capital</td>
+                    <td>Capital restant dû</td>
+                </tr>
+            </thead>
+            <tbody id="tableau-pret-off">
+                <tr>
+                    <td colspan="4" class="bouton row-submit header-row">
+                        <input class="bt-submit btn" type="button" 
+                            onclick="toggleTBody('tableau-pret')" name="+" value="+" 
+                            autocapitalize="off" autocorrect="off" spellcheck="false">
+                    </td>
+                </tr>
+            </tbody>
+            <tbody id="tableau-pret-on" style="display: none;" 
+                onclick="toggleTBody('tableau-pret')">
+                <tr><td colspan="4" class="bouton row-submit header-row">
+                    ----
+                </td></tr>
+            </tbody>
+        </table>
+        </div>
+
+<br><br><br>
+
+<h2>Calcul d'un remboursement anticipé</h2>
+<ul>
+    <li>Vérifiez la pertinence d'un remboursement anticipé à partir du mois du
+        remboursement, des pénalités associées et des caractéristiques 
+        du nouveau prêt.</li>
+</ul>
+
+<form id="calculateur-remboursement" class="formcalc">
+    <div class="table-responsive">
+        <table class="calculateur styled-table" cellspacing="0">
+            <tbody id="calc-remb-off">
+                <tr onclick="toggleTBody('calc-remb')" style="cursor: pointer;">
+                    <td colspan="2" class="header-col">
+                    + Calculer le remboursement
+                    </td>
+                </tr>
+            </tbody>
+        <tbody id="calc-remb-on" style="display: none;">
+            <tr onclick="toggleTBody('calc-remb')" style="cursor: pointer;">
+                <td colspan="2" class="header-col">
+                - Calculer le remboursement
+                </td>
+            </tr>
+            <tr>
+                <td class="lib header-row"><label for="month_position">A partir de quel mois voulez-vous rembourser tout le capital restant dû&nbsp;?</label></td>
+                <td><input class="chps_num default-value" name="month_position" type="text" id="month_position" value="" size="8" maxlength="8" autocapitalize="off" autocorrect="off" spellcheck="false"></td>
+            </tr>
+            <tr>
+                <td class="lib header-row"><label for="maluce_amount">Pourcentage que vous devrez payer en plus du capital restant dû&nbsp;?</label></td>
+                <td><input class="chps_num default-value" name="maluce_amount" type="text" id="maluce_amount" value="" size="8" maxlength="4" autocapitalize="off" autocorrect="off" spellcheck="false"> %</td>
+            </tr>
+            <tr>
+                <td class="lib header-row"><label for="duree_nv">Durée du nouvel emprunt (mois)&nbsp;:</label></td>
+                <td><input class="chps_num default-value" name="duree_nv" type="text" id="duree_nv" value="" size="8" maxlength="4" autocapitalize="off" autocorrect="off" spellcheck="false"></td>
+            </tr>
+            <tr>
+                <td class="lib header-row"><label for="taux_nv">Nouveau taux d'intérêt&nbsp;:</label></td>
+                <td><input class="chps_num default-value" name="taux_nv" type="text" id="taux_nv" value="" size="8" maxlength="4" autocapitalize="off" autocorrect="off" spellcheck="false"> %</td>
+            </tr>
+            <tr>
+                <td class="lib header-row"><label for="assurance_nv">Nouvelle assurance mensuelle&nbsp;:</label></td>
+                <td><input class="chps_num default-value" name="assurance_nv" type="text" id="assurance_nv" value="" size="8" maxlength="4" autocapitalize="off" autocorrect="off" spellcheck="false"> %</td>
+            </tr>
+            <tr><td colspan="2" class="bouton row-submit header-row">
+                <input class="bt-submit btn" type="button" onclick="calcul_remboursement()" name="Calculer" value="Calculer" autocapitalize="off" autocorrect="off" spellcheck="false">
+            </td></tr>
+        </tbody>
+        </table>
+    </div>
+    </form>
+
+    <h2>Tableau du remboursement</h2>
+    <ul>
+        <li>Capital restant dû en tenant compte du malus : <strong id="new_capital">----</strong>/mois</li>
+        <li>Nouvelle mensualité : <strong id="new_monthly_payment">----</strong>/mois</li>
+        <li>Nouvelle part assurance : <strong id="new_monthly_insurance">----</strong>/mois</li>
+        <li>Intérêts à rembourser avec l'ancien prêt à partir du <span id="start_month">----</span>ème mois: <strong id="remaining_interests">----</strong></li>
+        <li>Intérêts à rembourser avec le nouveau prêt plus le malus: <strong id="new_total_interests">----</strong></li>
+        <li><strong id="result">----</strong></li>
+    </ul>
+    <div class="table-responsive">
+        <table class="calculateur styled-table" cellspacing="0">
+            <thead  class="header-col">
+                <tr>
+                    <td>Mois</td>
+                    <td>Intérêts mensuels</td>
+                    <td>Part Capital</td>
+                    <td>Capital restant Dû</td>
+                </tr>
+            </thead>
+            <tbody id="tableau-remb-off">
+                <tr>
+                    <td colspan="4" class="bouton row-submit header-row">
+                        <input class="bt-submit btn" type="button" 
+                            onclick="toggleTBody('tableau-remb')" name="+" value="+" 
+                            autocapitalize="off" autocorrect="off" spellcheck="false">
+                    </td>
+                </tr>
+            </tbody>
+            <tbody id="tableau-remb-on" style="display: none;" 
+                onclick="toggleTBody('tableau-remb')">
+                <tr><td colspan="4" class="bouton row-submit header-row">
+                    ----
+                </td></tr>
+            </tbody>
+        </table>
+    </div>
+    
+				</div><!-- .wrapper-calculator -->
+			</div><!-- .entry-content -->
+			<div class="block-related">
+				<ul class="unstyled related__list">
+					<li class="related__item">
+						<a href="https://www.lafinancepourtous.com/" target="_blank" rel="noopener">
+							<span class="aligncenter">Découvrez le site de la finance pour tous</span>
+						</a>
+					</li>
+				</ul><!-- .related__list -->
+			</div><!-- .block-related -->
+		</article><!-- .hentry -->
+	</div><!-- .container -->
+</main><!-- .content -->
+<script type="text/javascript" src="jquery-3.2.1.min.js" id="jquery-core-js"></script>
+</body>
+</html>
